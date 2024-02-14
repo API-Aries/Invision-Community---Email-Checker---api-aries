@@ -1,4 +1,4 @@
-/**
+	/**
  * Create Member
  *
  * @param    array               $values             Values from form
@@ -123,12 +123,15 @@ protected static function checkDisposableEmail($email)
     $ch = curl_init($api_url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        'Type: TOKEN TYPE', // learn more: https://support.api-aries.online/hc/articles/1/3/3/email-checker
+        'Type: TOKEN TYPE',  // learn more: https://support.api-aries.online/hc/articles/1/3/3/email-checker
         'APITOKEN: API KEY' // learn more: https://support.api-aries.online/hc/articles/1/3/3/email-checker
     ));
     $response = curl_exec($ch);
     $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
+
+    echo "Response code: " . $httpcode . PHP_EOL;
+    echo "Response: " . $response . PHP_EOL;
 
     if ($httpcode === 200) {
         $data = json_decode($response, true);
