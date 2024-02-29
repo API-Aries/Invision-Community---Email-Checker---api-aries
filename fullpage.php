@@ -643,8 +643,8 @@ protected static function checkDisposableEmail($email)
     $ch = curl_init($api_url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        'Type: TOKEN TYPE',  // learn more: https://support.api-aries.online/hc/articles/1/3/3/email-checker
-        'APITOKEN: API KEY' // learn more: https://support.api-aries.online/hc/articles/1/3/3/email-checker
+        'Type: 1',  // learn more: https://support.api-aries.online/hc/articles/1/3/3/email-checker
+        'APITOKEN: JDT9-FSVM-IYTA-KS72-37JI' // learn more: https://support.api-aries.online/hc/articles/1/3/3/email-checker
     ));
     $response = curl_exec($ch);
     $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -661,40 +661,6 @@ protected static function checkDisposableEmail($email)
     }
     return false;
 }
-
-		/* Cycle profile fields */
-		foreach( $profileFields as $id => $fieldValue )
-		{
-			$field = \IPS\core\ProfileFields\Field::loadWithMember( mb_substr( $id, 6 ), NULL, NULL, NULL );
-			if( $field->type == 'Editor' )
-			{
-				$field->claimAttachments( $member->member_id );
-			}
-		}
-
-		/* Save custom field values */
-		\IPS\Db::i()->replace( 'core_pfields_content', array_merge( array( 'member_id' => $member->member_id ), $profileFields ) );
-		
-		/* Log that we gave consent for admin emails */
-		$member->logHistory( 'core', 'admin_mails', array( 'enabled' => (boolean) $member->allow_admin_mails ) );
-		
-		/* Log that we gave consent for terms and privacy */
-		if ( \IPS\Settings::i()->privacy_type != 'none' )
-		{
-			$member->logHistory( 'core', 'terms_acceptance', array( 'type' => 'privacy' ) );
-		}
-		
-		$member->logHistory( 'core', 'terms_acceptance', array( 'type' => 'terms' ) );
-			
-		/* Handle validation, but not if we were flagged as a spammer and banned */
-		if( $spamAction != 3 )
-		{
-			$member->postRegistration( FALSE, FALSE, $postBeforeRegister, static::_refUrl() );
-		}
-
-		/* Save and return */
-		return $member;
-	}
 	
 	/**
 	 * A printable coppa form
