@@ -643,8 +643,8 @@ protected static function checkDisposableEmail($email)
     $ch = curl_init($api_url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        'Type: 1',  // learn more: https://support.api-aries.online/hc/articles/1/3/3/email-checker
-        'APITOKEN: JDT9-FSVM-IYTA-KS72-37JI' // learn more: https://support.api-aries.online/hc/articles/1/3/3/email-checker
+        'Type: TOKEN TYPE',  // learn more: https://support.api-aries.online/hc/articles/1/3/3/email-checker
+        'APITOKEN: API KEY' // learn more: https://support.api-aries.online/hc/articles/1/3/3/email-checker
     ));
     $response = curl_exec($ch);
     $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -696,8 +696,8 @@ protected static function checkDisposableEmail($email)
 			/* Reset the validation flag and redirect the member to the index page if we have no row */
 			if( \IPS\Member::loggedIn()->members_bitoptions['validating'] )
 			{
-				$this->members_bitoptions['validating'] = FALSE;
-				$this->save();
+				\IPS\Member::loggedIn()->members_bitoptions['validating'] = FALSE;
+				\IPS\Member::loggedIn()->save();
 				$this->_performRedirect( NULL, FALSE, 'validate_no_record' );
 			}
 			\IPS\Output::i()->error( 'validate_no_record', '2S129/4', 404, '' );
